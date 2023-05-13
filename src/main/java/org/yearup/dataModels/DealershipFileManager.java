@@ -11,7 +11,7 @@ public class DealershipFileManager
     ArrayList<Vehicle> inventory = new ArrayList<>();
     ArrayList<Dealership> dealerships = new ArrayList<>();
 
-    private ArrayList<Vehicle> vehicleList()
+    private ArrayList<Vehicle> loadVehicle()
     {
         FileReader fileReader;
         BufferedReader reader = null;

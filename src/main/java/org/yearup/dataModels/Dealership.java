@@ -8,7 +8,7 @@ public class Dealership
     private String address;
     private String phone;
 
-    private ArrayList<Vehicle> vehicles;
+    private ArrayList<Vehicle> inventory = new ArrayList<>();
 
 
     public Dealership (String name, String address, String phone)
@@ -48,26 +48,47 @@ public class Dealership
         this.phone = phone;
     }
 
+
     public ArrayList<Vehicle> getVehiclesByPrice (double max, double min)
     {
-
-        return ;
+        for (Vehicle vehicle : inventory)
+        {
+            if (vehicle.getPrice() >= min && vehicle.getPrice() <= max)
+            {
+                inventory.add(vehicle);
+            }
+        }
+        return inventory;
     }
 
     public ArrayList<Vehicle> getVehiclesByMakeModel (String make, String model)
     {
-
-        return ;
+        for (Vehicle vehicle : inventory)
+        {
+            if (vehicle.getMake().equalsIgnoreCase(make))
+            {
+                inventory.add(vehicle);
+            }
+            else if (vehicle.getModel().equalsIgnoreCase(model))
+            {
+                inventory.add(vehicle);
+            }
+        }
+        return inventory;
     }
 
     public ArrayList<Vehicle> getAllVehicles ()
     {
-
-        return ;
+        return inventory;
     }
 
     public void addVehicle()
     {
+       
+    }
 
+    public void displayVehicle(Vehicle vehicle)
+    {
+        System.out.printf("%-10d %-10d %-10s %-10s %-10s %-10s %-20d $ %.2f \n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
     }
 }
