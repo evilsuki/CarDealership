@@ -8,7 +8,8 @@ public class Dealership
     private String address;
     private String phone;
 
-    private ArrayList<Vehicle> inventory = new ArrayList<>();
+    DealershipFileManager dealershipFileManager = new DealershipFileManager();
+    ArrayList<Vehicle> vehicles = dealershipFileManager.loadVehicle();
 
 
     public Dealership (String name, String address, String phone)
@@ -51,44 +52,43 @@ public class Dealership
 
     public ArrayList<Vehicle> getVehiclesByPrice (double max, double min)
     {
-        for (Vehicle vehicle : inventory)
+        ArrayList<Vehicle> selectedInventory = new ArrayList<>();
+
+        for (Vehicle vehicle : vehicles)
         {
             if (vehicle.getPrice() >= min && vehicle.getPrice() <= max)
             {
-                inventory.add(vehicle);
+                selectedInventory.add(vehicle);
             }
         }
-        return inventory;
+        return selectedInventory;
     }
 
     public ArrayList<Vehicle> getVehiclesByMakeModel (String make, String model)
     {
-        for (Vehicle vehicle : inventory)
+        ArrayList<Vehicle> selectedInventory = new ArrayList<>();
+
+        for (Vehicle vehicle : vehicles)
         {
             if (vehicle.getMake().equalsIgnoreCase(make))
             {
-                inventory.add(vehicle);
+                selectedInventory.add(vehicle);
             }
             else if (vehicle.getModel().equalsIgnoreCase(model))
             {
-                inventory.add(vehicle);
+                selectedInventory.add(vehicle);
             }
         }
-        return inventory;
+        return selectedInventory;
     }
 
-    public ArrayList<Vehicle> getAllVehicles ()
+    public ArrayList<Vehicle> getAllVehicles()
     {
-        return inventory;
+        return vehicles;
     }
 
-    public void addVehicle()
+    public void addVehicle(Vehicle vehicle)
     {
-       
-    }
-
-    public void displayVehicle(Vehicle vehicle)
-    {
-        System.out.printf("%-10d %-10d %-10s %-10s %-10s %-10s %-20d $ %.2f \n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
+        vehicles.add(vehicle);
     }
 }

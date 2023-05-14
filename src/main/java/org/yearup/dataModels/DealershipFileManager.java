@@ -8,13 +8,14 @@ import java.util.ArrayList;
 
 public class DealershipFileManager
 {
-    ArrayList<Vehicle> inventory = new ArrayList<>();
+    ArrayList<Vehicle> vehicles = loadVehicle();
     ArrayList<Dealership> dealerships = new ArrayList<>();
 
-    private ArrayList<Vehicle> loadVehicle()
+    public ArrayList<Vehicle> loadVehicle()
     {
         FileReader fileReader;
         BufferedReader reader = null;
+        ArrayList<Vehicle> inventory = new ArrayList<>();
 
         try
         {
@@ -115,7 +116,7 @@ public class DealershipFileManager
                 fileWriter.write(dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone());
             }
 
-            for (Vehicle vehicle : inventory)
+            for (Vehicle vehicle : vehicles)
             {
                 fileWriter.write(vehicle.getVin() + "|" + vehicle.getYear()
                                 + "|" + vehicle.getMake() + "|" + vehicle.getModel()
