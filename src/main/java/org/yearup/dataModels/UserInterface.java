@@ -64,6 +64,7 @@ public class UserInterface
      {
          System.out.println();
          System.out.println("===========================================================================================");
+         System.out.println();
          System.out.println("Menu");
          System.out.println("-------------------------------------------------------------------------------------------");
          System.out.println("What do you like to do?");
@@ -93,7 +94,7 @@ public class UserInterface
         System.out.println();
         System.out.println("Vehicle List");
         System.out.println("-------------------------------------------------------------------------------------------");
-        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-15s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
+        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-13s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
         System.out.println("-------------------------------------------------------------------------------------------");
 
         List<Vehicle> vehicles = dealership.getVehiclesByPrice(max, min);
@@ -118,7 +119,7 @@ public class UserInterface
         System.out.println();
         System.out.println("Vehicle List");
         System.out.println("-------------------------------------------------------------------------------------------");
-        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-15s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
+        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-13s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
         System.out.println("-------------------------------------------------------------------------------------------");
 
         List<Vehicle> vehicles = dealership.getVehiclesByMakeModel(make, model);
@@ -135,7 +136,7 @@ public class UserInterface
         System.out.println();
         System.out.println("Vehicle List");
         System.out.println("-------------------------------------------------------------------------------------------");
-        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-15s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
+        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-13s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
         System.out.println("-------------------------------------------------------------------------------------------");
 
         List<Vehicle> vehicles = dealership.getAllVehicles();
@@ -178,6 +179,6 @@ public class UserInterface
 
     public void displayVehicle(Vehicle vehicle)
     {
-        System.out.printf("%-10d %-10d %-10s %-10s %-10s %-10s %-15d $ %.2f \n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
+        System.out.printf("%-10d %-10d %-10s %-10s %-10s %-10s %-13d $ %.2f \n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
     }
 }

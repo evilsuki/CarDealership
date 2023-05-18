@@ -1,63 +1,9 @@
 package org.yearup.dataModels;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class DealershipFileManager
 {
-    ArrayList<Vehicle> vehicles = loadVehicle();
-
-    public ArrayList<Vehicle> loadVehicle()
-    {
-        FileReader fileReader;
-        BufferedReader reader = null;
-        ArrayList<Vehicle> inventory = new ArrayList<>();
-
-        try
-        {
-            fileReader = new FileReader("inventory.csv");
-            reader = new BufferedReader(fileReader);
-            String line;
-            reader.readLine();
-
-            while ((line = reader.readLine()) != null)
-            {
-                String[] variable = line.split("\\|");
-                int vin = Integer.parseInt(variable[0]);
-                int year = Integer.parseInt(variable[1]);
-                String make = variable[2];
-                String model = variable[3];
-                String vehicleType = variable[4];
-                String color = variable[5];
-                int odometer = Integer.parseInt(variable[6]);
-                double price = Double.parseDouble(variable[7]);
-
-                Vehicle vehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
-                inventory.add(vehicle);
-            }
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        finally
-        {
-            if (reader != null)
-            {
-                try
-                {
-                    reader.close();
-                }
-                catch (Exception e)
-                {
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-        return inventory;
-    }
-
-
     public Dealership getDealership()
     {
         FileReader fileReader;
@@ -128,7 +74,7 @@ public class DealershipFileManager
 
             fileWriter.write(dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone() + "\n");
 
-            for (Vehicle vehicle : vehicles)
+            for (Vehicle vehicle : dealership.vehicles)
             {
                 fileWriter.write(vehicle.getVin() + "|" + vehicle.getYear()
                                 + "|" + vehicle.getMake() + "|" + vehicle.getModel()
