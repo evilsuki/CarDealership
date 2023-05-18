@@ -1,19 +1,18 @@
 package org.yearup.dataModels;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface
 {
     Scanner scanner =new Scanner(System.in);
-    ArrayList<Dealership> vehicles;
-    private Dealership dealership;
+    private final Dealership dealership;
 
 
-    private void init()
+    public UserInterface()
     {
         DealershipFileManager dealershipFileManager = new DealershipFileManager();
-        this.vehicles = dealershipFileManager.getDealership();
+        this.dealership = dealershipFileManager.getDealership();
     }
 
 
@@ -43,6 +42,8 @@ public class UserInterface
                 }
                 else if (selection == 0)
                 {
+                    DealershipFileManager dealershipManager = new DealershipFileManager();
+                    dealershipManager.saveDealership(dealership);
                     break;
                 }
                 else
@@ -89,12 +90,16 @@ public class UserInterface
         double max = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.println(" ");
+        System.out.println();
+        System.out.println("Vehicle List");
+        System.out.println("-------------------------------------------------------------------------------------------");
+        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-15s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
         System.out.println("-------------------------------------------------------------------------------------------");
 
-        for (Dealership vehicle : vehicles)
+        List<Vehicle> vehicles = dealership.getVehiclesByPrice(max, min);
+        for (Vehicle vehicle : vehicles)
         {
-            displayVehicles(vehicle.getVehiclesByPrice(max, min));
+            displayVehicle(vehicle);
         }
 
 
@@ -109,46 +114,70 @@ public class UserInterface
         String make = scanner.nextLine().strip();
         System.out.print("Enter the model of vehicle: ");
         String model = scanner.nextLine().strip();
-        scanner.nextLine();
 
-        System.out.println(" ");
+        System.out.println();
+        System.out.println("Vehicle List");
+        System.out.println("-------------------------------------------------------------------------------------------");
+        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-15s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
         System.out.println("-------------------------------------------------------------------------------------------");
 
-        for (Dealership vehicle : vehicles)
+        List<Vehicle> vehicles = dealership.getVehiclesByMakeModel(make, model);
+        for (Vehicle vehicle : vehicles)
         {
-            displayVehicles(vehicle.getVehiclesByMakeModel(make, model));
+            displayVehicle(vehicle);
         }
     }
 
     public void processGetAllVehicleRequest()
     {
-        displayVehicles(dealership.getAllVehicles());
+        System.out.println();
+        System.out.println("===========================================================================================");
+        System.out.println();
+        System.out.println("Vehicle List");
+        System.out.println("-------------------------------------------------------------------------------------------");
+        System.out.printf("%-10s %-10s %-10s %-10s %-10s %-10s %-15s %s \n", "VIN", "Year", "Make", "Model", "Type", "Color", "Odometer", "Price");
+        System.out.println("-------------------------------------------------------------------------------------------");
+
+        List<Vehicle> vehicles = dealership.getAllVehicles();
+        for (Vehicle vehicle : vehicles)
+        {
+            displayVehicle(vehicle);
+        }
     }
 
     public void processAddVehicleRequest()
     {
+        System.out.println();
+        System.out.println("===========================================================================================");
+        System.out.println();
+        System.out.print("Enter vehicle VIN: ");
+        int vin = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter vehicle year: ");
+        int year = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter vehicle make: ");
+        String make = scanner.nextLine().strip();
+        System.out.print("Enter vehicle model: ");
+        String model = scanner.nextLine().strip();
+        System.out.print("Enter vehicle type: ");
+        String type = scanner.nextLine().strip();
+        System.out.print("Enter vehicle color: ");
+        String color = scanner.nextLine().strip();
+        System.out.print("Enter vehicle odometer: ");
+        int odometer = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter vehicle price: ");
+        double price = scanner.nextDouble();
+        scanner.nextLine();
 
+        Vehicle vehicle = new Vehicle(vin, year, make, model, type, color, odometer, price);
+        dealership.addVehicle(vehicle);
     }
 
-    public void displayVehicles(ArrayList<Vehicle> vehicles)
-    {
-        StringBuilder result = new StringBuilder();
-        if (vehicles.size() == 0)
-        {
-            result = new StringBuilder("No vehicles found in inventory.\n");
-        }
-        else
-        {
-            // Table header
-            result.append(String.format("%-10s %-10s %-10s %-10s %-10s %-10s %-20s %s \n", "VIN", "Year", "Make", "Model", "Vehicle Type", "Color", "Odometer", "Price"));
-            result.append("-------------------------------------------------------------------------------------------\n");
 
-            // Table rows
-            for (Vehicle vehicle : vehicles)
-            {
-                result.append(String.format("%-10d %-10d %-10s %-10s %-10s %-10s %-20d $ %.2f \n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice()));
-            }
-        }
-        System.out.println(result);
+    public void displayVehicle(Vehicle vehicle)
+    {
+        System.out.printf("%-10d %-10d %-10s %-10s %-10s %-10s %-15d $ %.2f \n", vehicle.getVin(), vehicle.getYear(), vehicle.getMake(), vehicle.getModel(), vehicle.getVehicleType(), vehicle.getColor(), vehicle.getOdometer(), vehicle.getPrice());
     }
 }

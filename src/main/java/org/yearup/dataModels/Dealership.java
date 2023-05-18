@@ -8,8 +8,7 @@ public class Dealership
     private String address;
     private String phone;
 
-    DealershipFileManager dealershipFileManager = new DealershipFileManager();
-    ArrayList<Vehicle> vehicles = dealershipFileManager.loadVehicle();
+    ArrayList<Vehicle> vehicles = new ArrayList<>();
 
 
     public Dealership (String name, String address, String phone)
@@ -67,18 +66,23 @@ public class Dealership
     public ArrayList<Vehicle> getVehiclesByMakeModel (String make, String model)
     {
         ArrayList<Vehicle> selectedInventory = new ArrayList<>();
+        boolean hasMake = make != null && !make.equals("");
+        boolean hasModel = model != null && !model.equals("");
 
         for (Vehicle vehicle : vehicles)
         {
-            if (vehicle.getMake().equalsIgnoreCase(make))
+            if (hasMake)
             {
-                selectedInventory.add(vehicle);
+                if (!vehicle.getMake().equalsIgnoreCase(make)) continue;
             }
-            else if (vehicle.getModel().equalsIgnoreCase(model))
+            if (hasModel)
             {
-                selectedInventory.add(vehicle);
+                if (!vehicle.getModel().equalsIgnoreCase(model)) continue;
             }
+
+            selectedInventory.add(vehicle);
         }
+
         return selectedInventory;
     }
 

@@ -1,15 +1,11 @@
 package org.yearup.dataModels;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class DealershipFileManager
 {
     ArrayList<Vehicle> vehicles = loadVehicle();
-    ArrayList<Dealership> dealerships = new ArrayList<>();
 
     public ArrayList<Vehicle> loadVehicle()
     {
@@ -62,7 +58,7 @@ public class DealershipFileManager
     }
 
 
-    public ArrayList<Dealership> getDealership()
+    public Dealership getDealership()
     {
         FileReader fileReader;
         BufferedReader reader = null;
@@ -71,6 +67,7 @@ public class DealershipFileManager
         {
             fileReader = new FileReader("inventory.csv");
             reader = new BufferedReader(fileReader);
+            String line;
 
             String[] variable1 = reader.readLine().split("\\|");
             String name = variable1[0];
@@ -78,8 +75,24 @@ public class DealershipFileManager
             String phone = variable1[2];
 
             Dealership dealership = new Dealership(name, address, phone);
-            dealerships.add(dealership);
 
+            while ((line = reader.readLine()) != null)
+            {
+                String[] variable = line.split("\\|");
+                int vin = Integer.parseInt(variable[0]);
+                int year = Integer.parseInt(variable[1]);
+                String make = variable[2];
+                String model = variable[3];
+                String vehicleType = variable[4];
+                String color = variable[5];
+                int odometer = Integer.parseInt(variable[6]);
+                double price = Double.parseDouble(variable[7]);
+
+                Vehicle vehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
+                dealership.addVehicle(vehicle);
+            }
+
+            return dealership;
         }
         catch (IOException e)
         {
@@ -99,29 +112,28 @@ public class DealershipFileManager
                 }
             }
         }
-        return dealerships;
+        return null;
     }
 
 
-    public void saveDealership()
+    public void saveDealership(Dealership dealership)
     {
-        FileWriter fileWriter = null;
+        FileWriter fileWriter;
+        BufferedWriter writer = null;
 
         try
         {
             fileWriter = new FileWriter("inventory.csv");
+            writer = new BufferedWriter(fileWriter);
 
-            for (Dealership dealership : dealerships)
-            {
-                fileWriter.write(dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone());
-            }
+            fileWriter.write(dealership.getName() + "|" + dealership.getAddress() + "|" + dealership.getPhone() + "\n");
 
             for (Vehicle vehicle : vehicles)
             {
                 fileWriter.write(vehicle.getVin() + "|" + vehicle.getYear()
                                 + "|" + vehicle.getMake() + "|" + vehicle.getModel()
                                 + "|" + vehicle.getVehicleType() + "|" + vehicle.getColor()
-                                + "|" + vehicle.getOdometer() + "|" + vehicle.getPrice());
+                                + "|" + vehicle.getOdometer() + "|" + vehicle.getPrice() + "\n");
             }
         }
         catch (IOException e)
@@ -130,11 +142,11 @@ public class DealershipFileManager
         }
         finally
         {
-            if (fileWriter != null)
+            if (writer != null)
             {
                 try
                 {
-                    fileWriter.close();
+                    writer.close();
                 }
                 catch (Exception e)
                 {
